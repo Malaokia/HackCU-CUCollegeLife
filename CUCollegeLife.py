@@ -32,7 +32,9 @@ except ImportError:
 	raise ImportError,"The ImageTk module is required to run this program"
 
 import Tkinter as tk
+import rw_csv
 import Analysis
+import ttk
 
 
 LARGE_FONT= ("Verdana", 12)
@@ -48,7 +50,7 @@ class CUCollegeApp(tk.Tk):
         refer.grid_rowconfigure(0, weight=1)
         refer.grid_columnconfigure(0, weight=1)
         self.frames = {}
-        for F in (HomePage, QuizPage, PredictHoursPage, EnterHoursData):
+        for F in (HomePage, QuizPage, PredictHoursPage, EnterHoursData, BalanceLife):
             frame = F(refer, self)
             self.frames[F] = frame
             frame.grid(row=0, column=0, sticky="nsew")
@@ -63,13 +65,16 @@ class HomePage(tk.Frame):
 
     def __init__(self, parent, controller):
 		tk.Frame.__init__(self,parent)
-		img = self.img = ImageTk.PhotoImage(Image.open('maxresdefault.jpg'))
+		img = self.img = ImageTk.PhotoImage(Image.open('cuboulder.jpg'))
 		panel = Tkinter.Label(self,image=img)
-		panel.pack(side = "bottom", fill = "both", expand = "yes")
+		panel.place(x=0,y=0)
+		#panel.pack(side = "bottom",fill="both",expand="yes")
 		button = tk.Button(self, text="Quiz: Which Major Is Right For You?",command=lambda: controller.show_frame(QuizPage))
 		button.pack()
 		button2 = tk.Button(self, text="How many hours should I in the next exam?",command=lambda: controller.show_frame(PredictHoursPage))
 		button2.pack()
+		button3 = tk.Button(self, text="Balance Life ",command=lambda: controller.show_frame(BalanceLife))
+		button3.pack()
 
 
 class QuizPage(tk.Frame):
@@ -96,7 +101,7 @@ class QuizPage(tk.Frame):
         self.entryVariable.set(u"Ex: 1 D,2 C, ...")
         entry.pack()
         self.labelVariable = Tkinter.StringVar()
-        label = Tkinter.Label(self,textvariable=self.labelVariable,fg="yellow",bg="blue",width = 80,height=10)
+        label = Tkinter.Label(self,textvariable=self.labelVariable,justify="left",wraplength=500,fg="yellow",bg="blue",width = 80,height=10)
         self.labelVariable.set(u"Hello!")
         
         label.pack()
@@ -152,7 +157,42 @@ class PredictHoursPage(tk.Frame):
     def OnPressEnter(self,event):
 		solution = self.entryVariable.get()
 		
+class BalanceLife(tk.Frame):
 
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        label = tk.Label(self, text="Balance Life", font=LARGE_FONT)
+        label.pack(pady=10,padx=10)
+        result = rw_csv.readScore()
+        tree = ttk.Treeview(self)
+        tree["columns"]=("Family","Travel","Studying","Friend","Volunteer")
+        tree.column("Family", width=100 )
+        tree.column("Travel", width=100)
+        tree.column("Studying", width=100 )
+        tree.column("Friend", width=100)
+        tree.column("Volunteer", width=100 )
+        tree.heading("Family", text="Family")
+        tree.heading("Travel", text="Travel")
+        tree.heading("Studying", text="Studying")
+        tree.heading("Friend", text="Friend")
+        tree.heading("Volunteer", text="Volunteer")
+        tree.insert("" , 0,    text="Score", values=(result["Family"],result["Travel"],result["Studying"],result["Friend"],result["Volunteer"]))
+        goal = rw_csv.readGoal()
+        print goal
+        id2 = tree.insert("", 1, "Task", text="Task")
+        tree.insert(id2, "end", text="", values=(2,5))
+        tree.pack()
+        self.entryVariable = Tkinter.StringVar()
+        entry = Tkinter.Entry(self,textvariable=self.entryVariable, width = 50)
+        entry.bind("<Return>", self.OnPressEnter1)
+        self.entryVariable.set(u"Ex: ()")
+        entry.pack()
+        button1 = tk.Button(self, text="Back to Home",command=lambda: controller.show_frame(HomePage))
+        button1.pack()
+        
+    def OnPressEnter1(self,event):
+		solution = self.entryVariable.get()
+		print solution
 
 if __name__ == '__main__':
 	app = CUCollegeApp()

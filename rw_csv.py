@@ -80,7 +80,7 @@ def readStudyHrs():
 	with open("studyhoursdb.csv","r") as f:
 		reader = csv.reader(f, delimiter=" ")
 		for row in reader:
-			infodict.update({row[0]:row[1]})
+			infodict.update({int(row[0]):int(row[1])})
 		f.close()
 	return infodict
 def writeStudyHrs(dic):

@@ -1,8 +1,9 @@
 import numpy as np 
+import matplotlib as mpl
+mpl.use("Agg")
 import matplotlib.pyplot as plt
 import csv
 import rw_csv
-mpl.use("Agg")
 
 #at one side we give them last result
 #give calculation and store it
@@ -56,9 +57,9 @@ def ptsAssess():
     return ctr
 def regression(x,y):
     rnd_down = int(len(x) * 0.8)
-    fit = np.polyfit(x[:rnd_down],y[:rnd_down],1)
+    fit = np.polyfit(x[0:rnd_down+1],y[0:rnd_down+1],1)
     fit_fn = np.poly1d(fit)
-    plt.plot(x,y,'yo',x,fit_fn(x),'--k'),plt.xlim(0,1000),plt.ylim(0,100)
+    plt.plot(x[0:rnd_down+1],y[0:rnd_down+1],'yo',x,fit_fn(x),'--k'),plt.xlim(0,1000),plt.ylim(0,100)
     plt.ylabel('scores received'),plt.xlabel('minutes spent studying')
     plt.title('Regression of Hours Studying and Scores Received')
     plt.savefig('Regression_Graph',bbox_inches='tight',dpi=100)
@@ -78,5 +79,7 @@ def hrsCalc(txt):
     else:
         rw_csv.writeStudyHrs({txt_arr[0]: txt_arr[1]})
         data_dict = rw_csv.readStudyHrs()
+        print data_dict
         regression(data_dict.values(),data_dict.keys())
     return 0
+
