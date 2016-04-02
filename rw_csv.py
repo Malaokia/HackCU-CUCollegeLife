@@ -76,12 +76,12 @@ def writeGoal(list):
 	fo.close()
 	return 0
 def readStudyHrs():
-	infodict = {}
+	infodict = []
 	with open("studyhoursdb.csv","r") as f:
-		reader = csv.reader(f, delimiter=" ")
-		for row in reader:
-			infodict.update({int(row[0]):int(row[1])})
-		f.close()
+		for line in csv.reader(f):
+			if ''.join(line).strip():
+				row = line[0].split(" ")
+				infodict.append((row[0],row[1]))
 	return infodict
 def writeStudyHrs(dic):
 	fo = open("studyhoursdb.csv","rw+")

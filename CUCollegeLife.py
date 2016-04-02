@@ -71,7 +71,7 @@ class HomePage(tk.Frame):
 		#panel.pack(side = "bottom",fill="both",expand="yes")
 		button = tk.Button(self, text="Quiz: Which Major Is Right For You?",command=lambda: controller.show_frame(QuizPage))
 		button.pack()
-		button2 = tk.Button(self, text="How many hours should I in the next exam?",command=lambda: controller.show_frame(PredictHoursPage))
+		button2 = tk.Button(self, text="How many hours should I study for the next exam?",command=lambda: controller.show_frame(PredictHoursPage))
 		button2.pack()
 		button3 = tk.Button(self, text="Balance Life ",command=lambda: controller.show_frame(BalanceLife))
 		button3.pack()
@@ -96,10 +96,10 @@ class QuizPage(tk.Frame):
         text.config(state="disabled",yscrollcommand=scrollbar.set)
         scrollbar.config(command=text.yview)
         self.entryVariable = Tkinter.StringVar()
-        entry = Tkinter.Entry(self,textvariable=self.entryVariable, width = 50)
-        entry.bind("<Return>", self.OnPressEnter)
+        self.entry = Tkinter.Entry(self,textvariable=self.entryVariable, width = 50)
+        self.entry.bind("<Return>", self.OnPressEnter)
         self.entryVariable.set(u"Ex: 1 D,2 C, ...")
-        entry.pack()
+        self.entry.pack()
         self.labelVariable = Tkinter.StringVar()
         label = Tkinter.Label(self,textvariable=self.labelVariable,justify="left",wraplength=500,fg="yellow",bg="blue",width = 80,height=10)
         self.labelVariable.set(u"Hello!")
@@ -120,35 +120,57 @@ class EnterHoursData(tk.Frame):
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-        label = tk.Label(self, text="Page Two!!!", font=LARGE_FONT)
+        img = self.img = ImageTk.PhotoImage(Image.open('study_time.jpg'))
+        panel = Tkinter.Label(self,image=img)
+        panel.place(x=0,y=0)
+        label = tk.Label(self, text="Please Enter Your Score and Hours That You Put to Study for Last Exam:", font=LARGE_FONT)
         label.pack(pady=10,padx=10)
         self.entryVariable = Tkinter.StringVar()
-        entry = Tkinter.Entry(self,textvariable=self.entryVariable, width = 50)
-        entry.bind("<Return>", self.OnPressEnter)
-        self.entryVariable.set(u"Ex: ()")
-        entry.pack()
+        self.entry = Tkinter.Entry(self,textvariable=self.entryVariable, width = 50)
+        self.entry.bind("<Return>", self.OnPressEnter)
+        self.entryVariable.set(u"Ex: 50 8")
+        self.entry.pack()
+        data_point = rw_csv.readStudyHrs()
+        scrollbar = tk.Scrollbar(self)
+        scrollbar.pack(side="right", fill="y")
+        self.listbox = tk.Listbox(self)
+        self.listbox.pack()
+        self.listbox.insert("end", "A list of our data points:")
+        for item in data_point:
+			self.listbox.insert("end", str(item))
+        scrollbar.config(command=self.listbox.yview)
 
         button1 = tk.Button(self, text="Back to Home",
                             command=lambda: controller.show_frame(HomePage))
         button1.pack()
         
     def OnPressEnter(self,event):
-		solution = self.entryVariable.get()
+		string = self.entryVariable.get()
+		item = string.split(" ")
+		rw_csv.writeStudyHrs({item[0]:item[1]})
+		self.listbox.insert("end",str(item))
+		self.entry.focus_set()
+		self.entry.selection_range(0, Tkinter.END)
        
 class PredictHoursPage(tk.Frame):
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-        label = tk.Label(self, text="Page Two!!!", font=LARGE_FONT)
+        img = self.img = ImageTk.PhotoImage(Image.open('study_time.jpg'))
+        panel = Tkinter.Label(self,image=img)
+        panel.place(x=0,y=0)
+        label = tk.Label(self, text="How many hours should I study for the next exam?", font=LARGE_FONT)
         label.pack(pady=10,padx=10)
         button1 = tk.Button(self, text="Would you like to input your newest test grade and hours that you put on it?",
                             command=lambda: controller.show_frame(EnterHoursData))
         button1.pack()
-        self.entryVariable = Tkinter.StringVar()
-        entry = Tkinter.Entry(self,textvariable=self.entryVariable, width = 50)
-        entry.bind("<Return>", self.OnPressEnter)
-        self.entryVariable.set(u"Ex: 1 D,2 C, ...")
-        entry.pack()
+        data_point = rw_csv.readStudyHrs()
+        if len(data_point) >= 5:
+			self.entryVariable = Tkinter.StringVar()
+			self.entry = Tkinter.Entry(self,textvariable=self.entryVariable, width = 50)
+			self.entry.bind("<Return>", self.OnPressEnter)
+			self.entryVariable.set(u"Please enter the grade that you expect to have for next exam!")
+			self.entry.pack()
 
         button2 = tk.Button(self, text="Back to Home",
                             command=lambda: controller.show_frame(HomePage))
@@ -156,6 +178,17 @@ class PredictHoursPage(tk.Frame):
         
     def OnPressEnter(self,event):
 		solution = self.entryVariable.get()
+		data_point = rw_csv.readStudyHrs()
+		x = []
+		y = []
+		for point in data_point:
+			x.append(int(point[0]))
+			y.append(int(point[1]))
+		for k in y:
+			print k
+		print Analysis.regression(x,y,int(solution))
+		self.entry.focus_set()
+		self.entry.selection_range(0, Tkinter.END)
 		
 class BalanceLife(tk.Frame):
 
@@ -178,7 +211,6 @@ class BalanceLife(tk.Frame):
         tree.heading("Volunteer", text="Volunteer")
         tree.insert("" , 0,    text="Score", values=(result["Family"],result["Travel"],result["Studying"],result["Friend"],result["Volunteer"]))
         goal = rw_csv.readGoal()
-        print goal
         id2 = tree.insert("", 1, "Task", text="Task")
         tree.insert(id2, "end", text="", values=(2,5))
         tree.pack()

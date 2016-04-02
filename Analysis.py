@@ -4,6 +4,9 @@ mpl.use("Agg")
 import matplotlib.pyplot as plt
 import csv
 import rw_csv
+import numpy as np
+from sklearn import linear_model
+import pandas as pd
 
 #at one side we give them last result
 #give calculation and store it
@@ -55,17 +58,67 @@ def ptsAssess():
             pass
         f.close()
     return ctr
-def regression(x,y):
-    rnd_down = int(len(x) * 0.8)
-    fit = np.polyfit(x[0:rnd_down+1],y[0:rnd_down+1],1)
-    fit_fn = np.poly1d(fit)
-    plt.plot(x[0:rnd_down+1],y[0:rnd_down+1],'yo',x,fit_fn(x),'--k'),plt.xlim(0,1000),plt.ylim(0,100)
-    plt.ylabel('scores received'),plt.xlabel('minutes spent studying')
-    plt.title('Regression of Hours Studying and Scores Received')
-    plt.savefig('Regression_Graph',bbox_inches='tight',dpi=100)
+
+def __correlationCalculation(x,y):
+		correl = np.corrcoef(x,y)[0][1]
+		if (correl == 0):
+			return "Two variable sets are uncorrelated.\n"
+		elif (correl > 0):
+			return "There is a positive correlation.\n"
+		else:
+			return "There is a negative correlation.\n"  
+ 
+def __graphData(data,slope,x,y,intercept,training):
+		data.plot(kind='scatter',x="Score",y="Hours of Studying")
+		x_eval = x[training:]
+		y_eval = y[training:]
+		b = plt.scatter(x_eval,y_eval,c='yellow')
+		x_list = []
+		y_list = []
+		for k in x:
+			x_list.append(k)
+			y_value = slope * k + intercept
+			y_list.append(y_value)
+		line, = plt.plot(x_list,y_list,c='red',linewidth=2)
+		plt.savefig("LinearRegressionGraph",bbox_inches='tight',dpi=100)
+
+def regression(x_data,y_data,predict_value):
+    text_output = "LINEAR REGRESSION ANALYSIS\n"
+    text_output = text_output + __correlationCalculation(x_data,y_data)
+    if text_output != "Two variable sets are uncorrelated.\n":
+			training = int(len(x_data)*80/100)
+			regr = linear_model.LinearRegression()
+			dic = {"Score":x_data[:training-1],"Hours of Studying":y_data[:training-1]}
+			data = pd.DataFrame(dic)
+			data.index += 1
+			X = data[["Score"]]
+			y = data["Hours of Studying"]
+			text_output = text_output + "x value is scores\n"
+			text_output = text_output + "y value is hours of studying\n"
+			regr.fit(X,y)
+			slope = regr.coef_[0]
+			intercept = regr.intercept_
+			text_output = text_output + "Coefficient computes from linear regression model:\n" + str(slope) + "\n"
+			text_output = text_output + "Interception computes from linear regression model:\n" + str(intercept) + "\n"
+			text_output = text_output + "Linear approximation line has form: y = " + str(slope) + " x + " + str(intercept) + "\n"
+			dic_eval = {"Score":x_data[training:],"Hours of Studying":y_data[training:]}
+			data_eval = pd.DataFrame(dic_eval)
+			data_eval.index += 1
+			X_eval = data_eval[["Score"]]
+			y_eval = data_eval["Hours of Studying"]
+			mean_sqr_err = np.mean((regr.predict(X_eval)-y_eval)**2)
+			score = regr.score(X_eval,y_eval)
+			text_output = text_output + "Mean square error is " + str(mean_sqr_err) + "\n"
+			text_output = text_output + "Score of this prediction " + str(score) + "\n"
+			text_output = text_output + "(Note: if score number equals 1, there is a perfect prediction and a strong linear relationship between two variables)\n"
+			__graphData(data,slope,x_data,y_data,intercept,training)
+			if (predict_value <= 100):
+				predict_result = slope*predict_value + intercept
+			else:
+				predict_result = "Invalid output for score (Need to be some number from 0 to 100)."
+    return (text_output,predict_result)
 
 
-    #hr score
 def hrsCalc(txt):
     txt_arr = txt.split(" ")
     if len(txt_arr) < 2 and ptsAssess() > 4:
