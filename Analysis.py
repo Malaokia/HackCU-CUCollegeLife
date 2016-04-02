@@ -16,13 +16,13 @@ def quizASSESS(mx):
         return'QUANTITATIVE REASONING'
 def infoOLD():
     info_old = rw_csv.readinfo()
-    trait_old = quizAssess(max(info_old.values()))
+    trait_old = quizASSESS(max(info_old.values()))
     return trait_old
 def infoNEW(txt):
     info_new,txt_arr = {},txt.split(",")
     for i in txt_arr:
         info_new.update({i[0]:i[-1]})
-    trait_new = quizAssess(max(info_new.values()))
+    trait_new = quizASSESS(max(info_new.values()))
     rw_csv.writeinfo(info_new)
     return trait_old
 '''
@@ -34,6 +34,7 @@ def goalRW():
     m = rwcsv.writegoal(['bigbrother sister mother father','paris singapore brussel vietnam',
         'homework project club volunteer','james jamie jessie jackie'])
     return las_r
+
 
 #if one isn't complete give estimation
 #else store in the database
@@ -52,7 +53,6 @@ def regression():
     plt.ylabel('scores received'),plt.xlabel('minutes spent studying')
     plt.title('Regression of Hours Studying and Scores Received')
     plt.show()
-
+'''
 if __name__ == "__main__":
     main()
-'''

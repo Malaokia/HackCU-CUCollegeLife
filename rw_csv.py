@@ -32,11 +32,11 @@ def readinfo():
 			infodict.update({row[0]:row[1]})
 		f.close()
 	return infodict
-def writeinfo(list):
+def writeinfo(dic):
 	fo = open("infodb.csv","rw+")
 	fo.seek(0,0)
 	for index in range(0,6):
-		fo.write("%s"%list[index])
+		fo.write("%s %s"%(dic[index].keys(),dic[index]) )
 		fo.write("\n")
 	fo.close()
 	return 0
