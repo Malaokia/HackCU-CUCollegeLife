@@ -19,12 +19,18 @@ def infoOLD():
     trait_old = quizASSESS(max(info_old.values()))
     return trait_old
 def infoNEW(txt):
+    expln = {}
+    with open("traitdb.csv","r") as f:
+        reader = csv.reader(f, delimiter="-")
+        for row in reader:
+            expln.update({row[0]:row[1]})
+        f.close()
     info_new,txt_arr = {},txt.split(",")
     for i in txt_arr:
         info_new.update({i[0]:i[-1]})
     trait_new = quizASSESS(max(info_new.values()))
     rw_csv.writeinfo(info_new)
-    return trait_new
+    return trait_new,expln[trait_new]
 '''
 def scoreRW():
     j = rwcsv.readscore()
