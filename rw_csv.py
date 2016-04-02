@@ -24,7 +24,7 @@
 
 import csv
 
-def readinfo():
+def readInfo():
 	infodict = {}
 	with open("infodb.csv","r") as f:
 		reader = csv.reader(f, delimiter=" ")
@@ -32,7 +32,7 @@ def readinfo():
 			infodict.update({row[0]:row[1]})
 		f.close()
 	return infodict
-def writeinfo(dic):
+def writeInfo(dic):
 	fo = open("infodb.csv","rw+")
 	fo.seek(0,0)
 	for index in range(1,7):
@@ -40,7 +40,7 @@ def writeinfo(dic):
 		fo.write("\n")
 	fo.close()
 	return 0
-def readscore():
+def readScore():
 	infodict = {}
 	with open("scoredb.csv","r") as f:
 		reader = csv.reader(f, delimiter=" ")
@@ -48,7 +48,7 @@ def readscore():
 			infodict.update({row[0]:row[1]})
 		f.close()
 	return infodict
-def writescore(list):
+def writeScore(list):
 	fo = open("scoredb.csv","rw+")
 	fo.seek(0,0)
 	for index in range(0,5):
@@ -56,7 +56,7 @@ def writescore(list):
 		fo.write("\n")
 	fo.close()
 	return 0
-def readgoal():
+def readGoal():
 	infodict = {}
 	with open("goaldb.csv","r") as f:
 		reader = csv.reader(f, delimiter=" ")
@@ -67,12 +67,26 @@ def readgoal():
 			ctr += 1
 		f.close()
 	return infodict
-def writegoal(list):
+def writeGoal(list):
 	fo = open("goaldb.csv","rw+")
 	fo.seek(0,0)
 	for index in range(0,4):
 		fo.write("%s"%list[index])
 		fo.write("\n")
+	fo.close()
+	return 0
+def readStudyHrs():
+	infodict = {}
+	with open("studyhoursdb.csv","r") as f:
+		reader = csv.reader(f, delimiter=" ")
+		for row in reader:
+			infodict.update({row[0]:row[1]})
+		f.close()
+	return infodict
+def writeStudyHrs(dic):
+	fo = open("studyhoursdb.csv","rw+")
+	fo.next()
+	fo.write("\n%s %s"%(dic.keys()[0],dic.values()[0]))
 	fo.close()
 	return 0
 
