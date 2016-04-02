@@ -5,7 +5,7 @@ import rw_csv
 
 #at one side we give them last result
 #give calculation and store it
-def quizAssess(mx):
+def quizASSESS(mx):
     if mx == "A":
         return 'HUMANITIES'
     elif mx == "B":
@@ -14,18 +14,17 @@ def quizAssess(mx):
         return'SCIENCES' 
     else:
         return'QUANTITATIVE REASONING'
-def infoRW(txt):
-
+def infoOLD():
     info_old = rw_csv.readinfo()
-
+    trait_old = quizAssess(max(info_old.values()))
+    return trait_old
+def infoNEW(txt):
     info_new,txt_arr = {},txt.split(",")
     for i in txt_arr:
         info_new.update({i[0]:i[-1]})
-    trait_old = quizAssess(max(info_old.values()))
     trait_new = quizAssess(max(info_new.values()))
-    
     rw_csv.writeinfo(info_new)
-    return trait_old,trait_new
+    return trait_old
 '''
 def scoreRW():
     j = rwcsv.readscore()
