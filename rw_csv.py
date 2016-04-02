@@ -35,8 +35,8 @@ def readinfo():
 def writeinfo(dic):
 	fo = open("infodb.csv","rw+")
 	fo.seek(0,0)
-	for index in range(0,6):
-		fo.write("%s %s"%(dic[index].keys(),dic[index]) )
+	for index in range(1,7):
+		fo.write("%s %s"%(str(index),dic[str(index)]) )
 		fo.write("\n")
 	fo.close()
 	return 0

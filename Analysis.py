@@ -24,7 +24,7 @@ def infoNEW(txt):
         info_new.update({i[0]:i[-1]})
     trait_new = quizASSESS(max(info_new.values()))
     rw_csv.writeinfo(info_new)
-    return trait_old
+    return trait_new
 '''
 def scoreRW():
     j = rwcsv.readscore()
