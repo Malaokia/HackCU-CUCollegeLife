@@ -9,7 +9,6 @@ def main():
 	m = rwcsv.writegoal(['bigbrother sister mother father','paris singapore brussel vietnam',
 		'homework project club volunteer','james jamie jessie jackie'])
 	print i,k,l
-	#m = rwcsv.writegoal([])
 	return 0
 
 if __name__ == '__main__':
