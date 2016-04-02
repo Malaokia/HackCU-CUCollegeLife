@@ -96,8 +96,9 @@ class QuizPage(tk.Frame):
         self.entryVariable.set(u"Ex: 1 D,2 C, ...")
         entry.pack()
         self.labelVariable = Tkinter.StringVar()
-        label = Tkinter.Label(self,textvariable=self.labelVariable,fg="yellow",bg="blue",width = 50)
+        label = Tkinter.Label(self,textvariable=self.labelVariable,fg="yellow",bg="blue",width = 80,height=10)
         self.labelVariable.set(u"Hello!")
+        
         label.pack()
 
         button1 = tk.Button(self, text="Back to Home",
@@ -106,8 +107,8 @@ class QuizPage(tk.Frame):
         
     def OnPressEnter(self,event):
 		solution = self.entryVariable.get()
-		result = Analysis.infoNEW(solution)
-		self.labelVariable.set(result)
+		(trait,text) = Analysis.infoNEW(solution)
+		self.labelVariable.set(trait+": "+text)
 
 
 class EnterHoursData(tk.Frame):
