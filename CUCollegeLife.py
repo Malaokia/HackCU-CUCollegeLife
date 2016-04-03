@@ -200,34 +200,121 @@ class BalanceLife(tk.Frame):
         label = tk.Label(self, text="Balance Life", font=LARGE_FONT)
         label.pack(pady=10,padx=10)
         result = rw_csv.readScore()
-        tree = ttk.Treeview(self)
-        tree["columns"]=("Family","Travel","Studying","Friend","Volunteer")
-        tree.column("Family", width=100 )
-        tree.column("Travel", width=100)
-        tree.column("Studying", width=100 )
-        tree.column("Friend", width=100)
-        tree.column("Volunteer", width=100 )
-        tree.heading("Family", text="Family")
-        tree.heading("Travel", text="Travel")
-        tree.heading("Studying", text="Studying")
-        tree.heading("Friend", text="Friend")
-        tree.heading("Volunteer", text="Volunteer")
-        tree.insert("" , 0,    text="Score", values=(result["Family"],result["Travel"],result["Studying"],result["Friend"],result["Volunteer"]))
+        self.tree = ttk.Treeview(self)
+        self.tree["columns"]=("Family","Travel","Studying","Friend","Volunteer")
+        self.tree.column("Family", width=200 )
+        self.tree.column("Travel", width=200)
+        self.tree.column("Studying", width=200 )
+        self.tree.column("Friend", width=200)
+        self.tree.column("Volunteer", width=200 )
+        self.tree.heading("Family", text="Family")
+        self.tree.heading("Travel", text="Travel")
+        self.tree.heading("Studying", text="Studying")
+        self.tree.heading("Friend", text="Friend")
+        self.tree.heading("Volunteer", text="Volunteer")
+        self.tree.insert("" , 0,    text="Score", values=(result["Family"],result["Travel"],result["Studying"],result["Friend"],result["Volunteer"]))
         goal = rw_csv.readGoal()
-        id2 = tree.insert("", 1, "Task", text="Task")
-        tree.insert(id2, "end", text="", values=(2,5))
-        tree.pack()
-        self.entryVariable = Tkinter.StringVar()
-        entry = Tkinter.Entry(self,textvariable=self.entryVariable, width = 50)
-        entry.bind("<Return>", self.OnPressEnter1)
-        self.entryVariable.set(u"Ex: ()")
-        entry.pack()
+        id2 = self.tree.insert("", 1, "Task", text="Task")
+        family_text = ""
+        for x in goal["Family"]:
+			family_text = family_text + x+ "\n"
+        travel_text = ""
+        for x in goal["Travel"]:
+			travel_text = travel_text + x+ "\n"
+        studying_text = ""
+        for x in goal["Studying"]:
+			studying_text = studying_text + x+"\n"
+			
+        friend_text = ""
+        for x in goal["Friend"]:
+			friend_text = friend_text + x+"\n"
+        volunteer_text = ""
+        for x in goal["Volunteer"]:
+			volunteer_text = volunteer_text + x+"\n"
+        self.tree.insert(id2, "end", text="", values=(family_text,travel_text,studying_text,friend_text,volunteer_text))
+        self.tree.pack()
+        self.entryVariable1 = Tkinter.StringVar()
+        entry1 = Tkinter.Entry(self,textvariable=self.entryVariable1, width = 100)
+        entry1.bind("<Return>", self.OnPressEnter1)
+        self.entryVariable1.set(u"Enter here if you want to ADD task (Sample Format:Family-Visit grandfather 3)")
+        entry1.pack()
+        self.entryVariable2 = Tkinter.StringVar()
+        entry2 = Tkinter.Entry(self,textvariable=self.entryVariable2, width = 100)
+        entry2.bind("<Return>", self.OnPressEnter2)
+        self.entryVariable2.set(u"Enter the task you have DONE from the remaining task (Sample Format:Family-Visit grandfather 3)")
+        entry2.pack()   
         button1 = tk.Button(self, text="Back to Home",command=lambda: controller.show_frame(HomePage))
         button1.pack()
+        img = self.img = ImageTk.PhotoImage(Image.open('BalanceLifeGraph.png'))
+        self.panel = Tkinter.Label(self,image=img)     
+        self.panel.pack(side = "left")
+        img2 = self.img2 = ImageTk.PhotoImage(Image.open('giphy.gif'))
+        self.panel2 = Tkinter.Label(self,image=img2)
+        self.panel2.pack(side = "right")
+        
         
     def OnPressEnter1(self,event):
-		solution = self.entryVariable.get()
-		print solution
+		solution = self.entryVariable1.get()
+		result = rw_csv.readScore()
+		rw_csv.writeNewGoal(solution)
+		for i in self.tree.get_children():
+			self.tree.delete(i)
+		self.tree.insert("" , 0,    text="Score", values=(result["Family"],result["Travel"],result["Studying"],result["Friend"],result["Volunteer"]))
+		goal = rw_csv.readGoal()
+		id2 = self.tree.insert("", 1, "Task", text="Task")
+		family_text = ""
+		for x in goal["Family"]:
+			family_text = family_text + x+ "\n"
+		travel_text = ""
+		for x in goal["Travel"]:
+			travel_text = travel_text + x+ "\n"
+		studying_text = ""
+		for x in goal["Studying"]:
+			studying_text = studying_text + x+"\n"
+		friend_text = ""
+		for x in goal["Friend"]:
+			friend_text = friend_text + x+"\n"
+		volunteer_text = ""
+		for x in goal["Volunteer"]:
+			volunteer_text = volunteer_text + x+"\n"
+		self.tree.insert(id2, "end", text="", values=(family_text,travel_text,studying_text,friend_text,volunteer_text))
+		
+	
+    def OnPressEnter2(self,event):
+		solution = self.entryVariable2.get()
+		part = solution.split("-")
+		rw_csv.deleteOldGoal(part[1])
+		item = part[1].split(" ")
+		score = item[len(item)-1]
+		rw_csv.writeScore({part[0]:int(score)})
+		for i in self.tree.get_children():
+			self.tree.delete(i)
+		result = rw_csv.readScore()
+		self.tree.insert("" , 0,    text="Score", values=(result["Family"],result["Travel"],result["Studying"],result["Friend"],result["Volunteer"]))
+		goal = rw_csv.readGoal()
+		id2 = self.tree.insert("", 1, "Task", text="Task")
+		family_text = ""
+		for x in goal["Family"]:
+			family_text = family_text + x+ "\n"
+		travel_text = ""
+		for x in goal["Travel"]:
+			travel_text = travel_text + x+ "\n"
+		studying_text = ""
+		for x in goal["Studying"]:
+			studying_text = studying_text + x+"\n"
+		friend_text = ""
+		for x in goal["Friend"]:
+			friend_text = friend_text + x+"\n"
+		volunteer_text = ""
+		for x in goal["Volunteer"]:
+			volunteer_text = volunteer_text + x+"\n"
+		self.tree.insert(id2, "end", text="", values=(family_text,travel_text,studying_text,friend_text,volunteer_text))
+		Analysis.makingBalanceLifeGraph(result["Family"],result["Travel"],result["Studying"],result["Friend"],result["Volunteer"])
+		img = self.img = ImageTk.PhotoImage(Image.open('BalanceLifeGraph.png'))
+		self.panel = Tkinter.Label(self,image=img)
+		self.panel.pack(side = "left")  
+		
+		
 
 class LookatGraph(tk.Frame):
 
@@ -238,6 +325,8 @@ class LookatGraph(tk.Frame):
 		panel.pack(side = "bottom",fill="both",expand="yes")
 		button = tk.Button(self, text="HomePage",command=lambda: controller.show_frame(HomePage))
 		button.pack()
+
+
 
 if __name__ == '__main__':
 	app = CUCollegeApp()

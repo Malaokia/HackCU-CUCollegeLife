@@ -119,20 +119,13 @@ def regression(x_data,y_data,predict_value):
     return (text_output,predict_result)
 
 
-def hrsCalc(txt):
-    txt_arr = txt.split(" ")
-    if len(txt_arr) < 2 and ptsAssess() > 4:
-        if int(txt_arr[0]) <= 100:
-            data_dict = rw_csv.readStudyHrs()
-            regression(data_dict.values(),data_dict.keys())
-        else:
-            return "Please enter the Score within 100"
-    elif len(txt_arr) < 2 and ptsAssess() <= 4:
-        return "Not Enough Data Points for Regression Prediction. Please Enter More Points"
-    else:
-        rw_csv.writeStudyHrs({txt_arr[0]: txt_arr[1]})
-        data_dict = rw_csv.readStudyHrs()
-        print data_dict
-        regression(data_dict.values(),data_dict.keys())
-    return 0
+def makingBalanceLifeGraph(family,travel,studying,friend,volunteer):
+	fig = plt.figure()
+	fig.add_subplot(111)
+	labels = 'Family', 'Travel', 'Studying', 'Friend', 'Volunteer'
+	fracs = [family, travel, studying, friend, volunteer]
+	explode=(0.1, 0, 0,0, 0)
+	plt.pie(fracs, explode=explode, labels=labels,autopct='%1.1f%%', shadow=True, startangle=90)
+	plt.axis('equal')
+	plt.savefig("BalanceLifeGraph",bbox_inches='tight',dpi=50)
 
