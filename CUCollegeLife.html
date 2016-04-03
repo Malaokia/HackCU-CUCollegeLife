@@ -1,29 +1,19 @@
+
 <!DOCTYPE html>
 <html>
-     <head>
-    	<title>MainPage</title>
-	<script>
-		function input(){
-		
-		}
-	</script>
-	<style>
-		div {
-			width: 20px;
-			text:" wow"
-    			background: blue;
-    			position: relative;
-    			-webkit-animation: mymove 10s infinite; /* Chrome, Safari, Opera */
-    			animation: mymove 10s infinite;
-		}
-		@keyframes mymove {
-    			from {left: 0px;}
-    			to {left: 500px;}
-		}
-	</style>
-		<center>
-			<div style="height:200px"></div>
-			<input style="width:380px; height:30px" type="text" name="food bar" value= "" placeholder="Enter food here Eg.chicken soup, salad,..." id="location" onKeydown="if (event.keyCode==13){ print(input)};" ></input> 
-			<div style="height:-100px"></div>
-		<center>
-</html>
+  <head>
+    <title>Lifepal</title>
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js">
+    </script>
+    <script>
+	$(document).ready(function(){
+		document.body.style.background = " url(pic.jpg) no-repeat center";
+	});
+    </script>
+  </head>
+  <body>
+  	<center>
+     <font face="Geneva, Arial, Helvetica,sans-serif" size="15" color="brown">Life-Pal</font>
+    </center>
+    <div style="height:-100px"></div>
+  </body>

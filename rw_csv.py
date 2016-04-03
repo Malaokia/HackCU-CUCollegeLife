@@ -61,14 +61,13 @@ def readGoal():
 	with open("goaldb.csv","r") as f:
 		reader = csv.reader(f, delimiter="-")
 		for row in reader:
-			infodict.update({row[0]: row[1]})
+			infodict.update({row[0]: [i for i in row[1].split("|")]})
 		f.close()
-	print infodict
 	return infodict
 def writeGoal(list):
-	lst_arr = list.split(" ")
+	lst_arr = list.split(":")
 	with open("goaldb.csv", 'r') as f:
-		file_lines = [''.join([x.strip("\n"), " %s\n"%lst_arr[1]]) if x.find(lst_arr[0]) == 0 else x for x in f.readlines()]
+		file_lines = [''.join([x.strip("\n"), "|%s\n"%lst_arr[1]]) if x.find(lst_arr[0]) == 0 else x for x in f.readlines()]
 	with open("goaldb.csv", 'w') as f:
 		f.writelines(file_lines) 
 	return 0
@@ -87,5 +86,6 @@ def writeStudyHrs(dic):
 	fo.close()
 	return 0
 
-
+writeGoal("Family:wonderful woman")
+readGoal()
 
