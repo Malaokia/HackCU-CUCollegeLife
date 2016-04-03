@@ -48,29 +48,45 @@ def readScore():
 			infodict.update({row[0]:row[1]})
 		f.close()
 	return infodict
-def writeScore(list):
-	fo = open("scoredb.csv","rw+")
-	fo.seek(0,0)
-	for index in range(0,5):
-		fo.write("%s"%list[index])
-		fo.write("\n")
-	fo.close()
+def writeScore(dictionary):
+	file_lines = []
+	with open("scoredb.csv", 'r+') as f:
+		file_lines = [''.join([x.split(' ')[0]," %d\n"%(dictionary.values()[0]+int(x.split(' ')[1]))]) if x.find(dictionary.keys()[0]) >= 0 else x for x in f.readlines()]
+		#file_lines = ["".join([x.strip(" ")[0], "%d"%dictionary.values()[0]]) if x.find(dictionary.keys()[0]) >= 0 else x for x in f.readlines()]
+		#print file_lines
+	f.close()
+	with open("scoredb.csv", 'w') as f:
+		f.writelines(file_lines)
+	f.close()
 	return 0
 def readGoal():
 	infodict = {}
-	with open("goaldb.csv","r") as f:
-		reader = csv.reader(f, delimiter="-")
-		for row in reader:
-			infodict.update({row[0]: [i for i in row[1].split("|")]})
+	with open("goaldb.csv","rU") as f:
+		for line in csv.reader(f):
+			if ''.join(line).strip():
+				row= line[0].split("-")
+				infodict.update({row[0]: [i for i in row[1].split("|")]})
 		f.close()
 	print infodict
 	return infodict
-def writeGoal(list):
-	lst_arr = list.split(":")
+def writeNewGoal(string):
+	lst_arr = string.split("-")
 	with open("goaldb.csv", 'r') as f:
 		file_lines = [''.join([x.strip("\n"), "|%s\n"%lst_arr[1]]) if x.find(lst_arr[0]) == 0 else x for x in f.readlines()]
+	f.close()
 	with open("goaldb.csv", 'w') as f:
-		f.writelines(file_lines) 
+		f.writelines(file_lines)
+	f.close() 
+	return 0
+def deleteOldGoal(string):
+	lst_arr = string.split("-")
+	file_lines = []
+	with open("goaldb.csv",'r') as f:
+		file_lines = [''.join(x.split('|%s'%string)) if x.find(string) > 0 else x for x in f.readlines()]
+	f.close()
+	with open("goaldb.csv",'w') as f:
+		f.writelines(file_lines)
+	f.close()
 	return 0
 def readStudyHrs():
 	infodict = []
@@ -86,6 +102,4 @@ def writeStudyHrs(dic):
 	fo.write("\n%s %s"%(dic.keys()[0],dic.values()[0]))
 	fo.close()
 	return 0
-
-readGoal()
 
