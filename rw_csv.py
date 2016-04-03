@@ -63,6 +63,7 @@ def readGoal():
 		for row in reader:
 			infodict.update({row[0]: [i for i in row[1].split("|")]})
 		f.close()
+	print infodict
 	return infodict
 def writeGoal(list):
 	lst_arr = list.split(":")
@@ -86,6 +87,5 @@ def writeStudyHrs(dic):
 	fo.close()
 	return 0
 
-writeGoal("Family:wonderful woman")
 readGoal()
 

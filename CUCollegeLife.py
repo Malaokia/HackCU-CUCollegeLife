@@ -27,7 +27,7 @@ except ImportError:
 	raise ImportError,"The Tkinter module is required to run this program"
 
 try:
-	import ImageTk, Image
+	from PIL import ImageTk, Image
 except ImportError:
 	raise ImportError,"The ImageTk module is required to run this program"
 

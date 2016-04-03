@@ -2,18 +2,86 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Lifepal</title>
+    <title>Life-Pal</title>
     <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js">
     </script>
     <script>
-	$(document).ready(function(){
-		document.body.style.background = " url(pic.jpg) no-repeat center";
-	});
-    </script>
+
+		$(document).ready(function(){
+			document.body.style.background = " url(wallpaper.jpg) no-repeat center";
+		});
+		window.onload = function() {
+			var fileInput = document.getElementById('fileInput');
+			var fileDisplayArea = document.getElementById('fileDisplayArea');
+			fileInput.addEventListener('change', function(e) {
+				var file = fileInput.files[0];
+				var textType = /text.*/;
+
+				if (file.type.match(textType)) {
+					var reader = new FileReader();
+					reader.onload = function(e) {
+						fileDisplayArea.innerText = reader.result;
+					}
+					reader.readAsText(file);	
+				} else {
+					fileDisplayArea.innerText = "File not supported!";
+				}
+			});
+		}
+		function frccFunction() {
+    		var email = prompt("Please enter your email address", "ex. xxx@colorado.edu");
+    		var quiz = prompt("Quiz: Which Major Is Right For You?\nSource: http://getcollegecredit.com/blog/article/which_major_is_right_for_you\n1) If you didn’t have tons of homework due for class tomorrow, how would you spend your free time?\na. By reading a book, watching a play, or listening to music\nb. By meeting new people and going to events to learn new things\nc. By programming a computer game or thinking up a new experiment\nd. By playing Sudoku or sketching out the floor plans of your dream home\n\n2) Which one of these courses would most interest you?\na. An Exploration of Milton’s Paradise Lost\nb. The Meaning of Dreams\nc. Apes and Humans: Genetics As a Common Link\nd. Data Visualizations Through Number Theory\n\n3) The perfect date would include:\na. A trip to a museum, a talk by your favorite thought leader, or a concert\nb. A comedy club, a documentary screening, or people watching at a cafe\nc. A cooking class, a trip to a pet store, or stargazing\nd. A Lego building competition, a Poker game, or a discussion with Warren Buffet\n\n4) When shopping for back-to-school supplies, you love purchasing:\na. Art supplies\nb. Journals to take notes in\nc. A lab notebook\nd. A graphing calculator\n\n5) Your favorite games most likely include:\na. Words with Friends, Scrabble, Pictionary\nb. Life, Monopoly\nc. Cranium, Trivial Pursuit, Operation\nd. Sudoku, Dominos, Chess\n\n6) Your favorite book genre is:\na. Classics\nb. Mystery\nc. Science Fiction\nd. Self-help or Business","ex. A,B,C,...");
+    		var csv = 
+    		//var resp = prompt("Thank You for Taking the Quiz:\n Here are a list of emails that match your personality test!\n","one")
+    		if (email != null) {
+    	    	document.getElementById("email").innerHTML =
+    	    	"Hello " + max() + "! Thank You for Your Interest In Life-Pal? Lets get started!";
+       		}
+       		
+		}
+		function cuFunction() {
+    		var email = prompt("Please enter your email address", "ex. xxx@colorado.edu");
+    		var quiz = prompt("Quiz: Which Major Is Right For You?\nSource: http://getcollegecredit.com/blog/article/which_major_is_right_for_you\n1) If you didn’t have tons of homework due for class tomorrow, how would you spend your free time?\na. By reading a book, watching a play, or listening to music\nb. By meeting new people and going to events to learn new things\nc. By programming a computer game or thinking up a new experiment\nd. By playing Sudoku or sketching out the floor plans of your dream home\n\n2) Which one of these courses would most interest you?\na. An Exploration of Milton’s Paradise Lost\nb. The Meaning of Dreams\nc. Apes and Humans: Genetics As a Common Link\nd. Data Visualizations Through Number Theory\n\n3) The perfect date would include:\na. A trip to a museum, a talk by your favorite thought leader, or a concert\nb. A comedy club, a documentary screening, or people watching at a cafe\nc. A cooking class, a trip to a pet store, or stargazing\nd. A Lego building competition, a Poker game, or a discussion with Warren Buffet\n\n4) When shopping for back-to-school supplies, you love purchasing:\na. Art supplies\nb. Journals to take notes in\nc. A lab notebook\nd. A graphing calculator\n\n5) Your favorite games most likely include:\na. Words with Friends, Scrabble, Pictionary\nb. Life, Monopoly\nc. Cranium, Trivial Pursuit, Operation\nd. Sudoku, Dominos, Chess\n\n6) Your favorite book genre is:\na. Classics\nb. Mystery\nc. Science Fiction\nd. Self-help or Business","ex. A,B,C,...");
+    		if (email != null) {
+    	    	document.getElementById("email").innerHTML =
+    	    	"Hello " + email + "! Thank You for Your Interest In Life-Pal? Lets get started";
+    	    	quiz;
+       		}
+       		if (quiz != null) {
+    	    	document.getElementById("email").innerHTML =
+    	    	"Hello " + email + "! Thank You for Your Interest In Life-Pal? Lets get started";
+    	    	quiz;
+       		}
+		}
+		function csuFunction() {
+    		var email = prompt("Please enter your email address", "ex. xxx@colorado.edu");
+    		var quiz = prompt("Quiz: Which Major Is Right For You?\nSource: http://getcollegecredit.com/blog/article/which_major_is_right_for_you\n1) If you didn’t have tons of homework due for class tomorrow, how would you spend your free time?\na. By reading a book, watching a play, or listening to music\nb. By meeting new people and going to events to learn new things\nc. By programming a computer game or thinking up a new experiment\nd. By playing Sudoku or sketching out the floor plans of your dream home\n\n2) Which one of these courses would most interest you?\na. An Exploration of Milton’s Paradise Lost\nb. The Meaning of Dreams\nc. Apes and Humans: Genetics As a Common Link\nd. Data Visualizations Through Number Theory\n\n3) The perfect date would include:\na. A trip to a museum, a talk by your favorite thought leader, or a concert\nb. A comedy club, a documentary screening, or people watching at a cafe\nc. A cooking class, a trip to a pet store, or stargazing\nd. A Lego building competition, a Poker game, or a discussion with Warren Buffet\n\n4) When shopping for back-to-school supplies, you love purchasing:\na. Art supplies\nb. Journals to take notes in\nc. A lab notebook\nd. A graphing calculator\n\n5) Your favorite games most likely include:\na. Words with Friends, Scrabble, Pictionary\nb. Life, Monopoly\nc. Cranium, Trivial Pursuit, Operation\nd. Sudoku, Dominos, Chess\n\n6) Your favorite book genre is:\na. Classics\nb. Mystery\nc. Science Fiction\nd. Self-help or Business","ex. A,B,C,...");
+    		if (email != null) {
+    	    	document.getElementById("email").innerHTML =
+    	    	"Hello " + email + "! Thank You for Your Interest In Life-Pal? Lets get started";
+    	    	quiz;
+       		}
+       		if (quiz != null) {
+    	    	document.getElementById("email").innerHTML =
+    	    	"Hello " + email + "! Thank You for Your Interest In Life-Pal? Lets get started";
+    	    	quiz;
+       		}
+		}
+	</script>
   </head>
   <body>
   	<center>
-     <font face="Geneva, Arial, Helvetica,sans-serif" size="15" color="brown">Life-Pal</font>
+    	<font face="Geneva, Arial, Helvetica,sans-serif" size="15" color="brown">Life-Pal</font>
     </center>
-    <div style="height:-100px"></div>
+    <center><font color="white">Participated School</font>
+    </center>
+    <center>
+    	<button type="button" onclick="cuFunction()"><img src="culogo.png" height="155"/></button>
+    	<button type="button" onclick="csuFunction()"><img src="csulogo.png" height="155"/></button>
+    	<button type="button" onclick="frccFunction()"><img src="frcclogo.jpg" height="155"/></button>
+    </center>
+    <center>
+    	<font id="email" color="white"></font>
+    	<pre id="fileDisplayArae"><pre>
+    </center>
   </body>
