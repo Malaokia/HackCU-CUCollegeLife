@@ -50,7 +50,7 @@ class CUCollegeApp(tk.Tk):
         refer.grid_rowconfigure(0, weight=1)
         refer.grid_columnconfigure(0, weight=1)
         self.frames = {}
-        for F in (HomePage, QuizPage, PredictHoursPage, EnterHoursData, BalanceLife):
+        for F in (HomePage, QuizPage, PredictHoursPage, EnterHoursData, BalanceLife,LookatGraph):
             frame = F(refer, self)
             self.frames[F] = frame
             frame.grid(row=0, column=0, sticky="nsew")
@@ -171,7 +171,10 @@ class PredictHoursPage(tk.Frame):
 			self.entry.bind("<Return>", self.OnPressEnter)
 			self.entryVariable.set(u"Please enter the grade that you expect to have for next exam!")
 			self.entry.pack()
+			button2 = tk.Button(self, text="Look at Graph",command=lambda: controller.show_frame(LookatGraph))
+			button2.pack()
 
+        self.text = tk.Text(self)
         button2 = tk.Button(self, text="Back to Home",
                             command=lambda: controller.show_frame(HomePage))
         button2.pack()
@@ -184,9 +187,9 @@ class PredictHoursPage(tk.Frame):
 		for point in data_point:
 			x.append(int(point[0]))
 			y.append(int(point[1]))
-		for k in y:
-			print k
-		print Analysis.regression(x,y,int(solution))
+		(anal,predict_value) = Analysis.regression(x,y,int(solution))
+		self.text.insert("end",anal+"You should study for "+str(predict_value)+" hours for next exam!!!")
+		self.text.pack()
 		self.entry.focus_set()
 		self.entry.selection_range(0, Tkinter.END)
 		
@@ -225,6 +228,16 @@ class BalanceLife(tk.Frame):
     def OnPressEnter1(self,event):
 		solution = self.entryVariable.get()
 		print solution
+
+class LookatGraph(tk.Frame):
+
+    def __init__(self, parent, controller):
+		tk.Frame.__init__(self,parent)
+		img = self.img = ImageTk.PhotoImage(Image.open('LinearRegressionGraph.png'))
+		panel = Tkinter.Label(self,image=img)
+		panel.pack(side = "bottom",fill="both",expand="yes")
+		button = tk.Button(self, text="HomePage",command=lambda: controller.show_frame(HomePage))
+		button.pack()
 
 if __name__ == '__main__':
 	app = CUCollegeApp()
