@@ -59,21 +59,18 @@ def writeScore(list):
 def readGoal():
 	infodict = {}
 	with open("goaldb.csv","r") as f:
-		reader = csv.reader(f, delimiter=" ")
-		title = ["family","travel","study","social"]
-		ctr = 0
+		reader = csv.reader(f, delimiter="-")
 		for row in reader:
-			infodict.update({title[ctr]: row})
-			ctr += 1
+			infodict.update({row[0]: row[1]})
 		f.close()
+	print infodict
 	return infodict
 def writeGoal(list):
-	fo = open("goaldb.csv","rw+")
-	fo.seek(0,0)
-	for index in range(0,4):
-		fo.write("%s"%list[index])
-		fo.write("\n")
-	fo.close()
+	lst_arr = list.split(" ")
+	with open("goaldb.csv", 'r') as f:
+		file_lines = [''.join([x.strip("\n"), " %s\n"%lst_arr[1]]) if x.find(lst_arr[0]) == 0 else x for x in f.readlines()]
+	with open("goaldb.csv", 'w') as f:
+		f.writelines(file_lines) 
 	return 0
 def readStudyHrs():
 	infodict = []
