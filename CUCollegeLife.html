@@ -10,62 +10,59 @@
 		$(document).ready(function(){
 			document.body.style.background = " url(wallpaper.jpg) no-repeat center";
 		});
-		window.onload = function() {
-			var fileInput = document.getElementById('fileInput');
-			var fileDisplayArea = document.getElementById('fileDisplayArea');
-			fileInput.addEventListener('change', function(e) {
-				var file = fileInput.files[0];
-				var textType = /text.*/;
-
-				if (file.type.match(textType)) {
-					var reader = new FileReader();
-					reader.onload = function(e) {
-						fileDisplayArea.innerText = reader.result;
-					}
-					reader.readAsText(file);	
-				} else {
-					fileDisplayArea.innerText = "File not supported!";
-				}
-			});
+		function mode(arr){
+			return arr.sort((a,b) =>arr.filter(v => v===a).length- arr.filter(v => v===b).length).pop();
 		}
+		//$download_button = "<a href=\"".$site_sess->url(ROOT_PATH."download.php?".URL_IMAGE_ID."=".$image_row['image_id'])."\"".$target." onclick=\"popup=window.open('test.html'); return false;\">Click here to download!!!</a>"
+
+        var grpdict = {'A':'tortilla@colorado.edu\nmay@colorado.edu,until@colorado.edu','B':'doritos@colorado.edu\nflavor@colorado.edu\nnet@colorado.edu','C':
+'guarantee@colorado.edu','D':'cheese@colorado.edu\nnacho@colorado.edu\nchips@colorado.edu'};
 		function frccFunction() {
     		var email = prompt("Please enter your email address", "ex. xxx@colorado.edu");
     		var quiz = prompt("Quiz: Which Major Is Right For You?\nSource: http://getcollegecredit.com/blog/article/which_major_is_right_for_you\n1) If you didn’t have tons of homework due for class tomorrow, how would you spend your free time?\na. By reading a book, watching a play, or listening to music\nb. By meeting new people and going to events to learn new things\nc. By programming a computer game or thinking up a new experiment\nd. By playing Sudoku or sketching out the floor plans of your dream home\n\n2) Which one of these courses would most interest you?\na. An Exploration of Milton’s Paradise Lost\nb. The Meaning of Dreams\nc. Apes and Humans: Genetics As a Common Link\nd. Data Visualizations Through Number Theory\n\n3) The perfect date would include:\na. A trip to a museum, a talk by your favorite thought leader, or a concert\nb. A comedy club, a documentary screening, or people watching at a cafe\nc. A cooking class, a trip to a pet store, or stargazing\nd. A Lego building competition, a Poker game, or a discussion with Warren Buffet\n\n4) When shopping for back-to-school supplies, you love purchasing:\na. Art supplies\nb. Journals to take notes in\nc. A lab notebook\nd. A graphing calculator\n\n5) Your favorite games most likely include:\na. Words with Friends, Scrabble, Pictionary\nb. Life, Monopoly\nc. Cranium, Trivial Pursuit, Operation\nd. Sudoku, Dominos, Chess\n\n6) Your favorite book genre is:\na. Classics\nb. Mystery\nc. Science Fiction\nd. Self-help or Business","ex. A,B,C,...");
-    		var csv = 
     		//var resp = prompt("Thank You for Taking the Quiz:\n Here are a list of emails that match your personality test!\n","one")
-    		if (email != null) {
-    	    	document.getElementById("email").innerHTML =
-    	    	"Hello " + max() + "! Thank You for Your Interest In Life-Pal? Lets get started!";
-       		}
+            var array = quiz.split(',');
+            var dict = {'A':'HUMANITIES','B':'SOCIAL SCIENCES','C':'SCIENCES','D':'QUANTITATIVE REASONING'};
+            console.log(mode(quiz.split(',')));
+            var e = dict[mode(quiz.split(','))];
+            var f = grpdict[mode(quiz.split(','))];
+            if (email != null) {
+                document.getElementById("email").innerHTML =
+                "Congratulation, You are " + e + "!\n Here are a list of people that has a similar personality as you! Go out and make some friends:\n"+f;
+            }
+            var a = prompt("Please enter to download.","click enter");
+            window.location.replace("http://localhost:8000/download.html");
        		
 		}
 		function cuFunction() {
     		var email = prompt("Please enter your email address", "ex. xxx@colorado.edu");
     		var quiz = prompt("Quiz: Which Major Is Right For You?\nSource: http://getcollegecredit.com/blog/article/which_major_is_right_for_you\n1) If you didn’t have tons of homework due for class tomorrow, how would you spend your free time?\na. By reading a book, watching a play, or listening to music\nb. By meeting new people and going to events to learn new things\nc. By programming a computer game or thinking up a new experiment\nd. By playing Sudoku or sketching out the floor plans of your dream home\n\n2) Which one of these courses would most interest you?\na. An Exploration of Milton’s Paradise Lost\nb. The Meaning of Dreams\nc. Apes and Humans: Genetics As a Common Link\nd. Data Visualizations Through Number Theory\n\n3) The perfect date would include:\na. A trip to a museum, a talk by your favorite thought leader, or a concert\nb. A comedy club, a documentary screening, or people watching at a cafe\nc. A cooking class, a trip to a pet store, or stargazing\nd. A Lego building competition, a Poker game, or a discussion with Warren Buffet\n\n4) When shopping for back-to-school supplies, you love purchasing:\na. Art supplies\nb. Journals to take notes in\nc. A lab notebook\nd. A graphing calculator\n\n5) Your favorite games most likely include:\na. Words with Friends, Scrabble, Pictionary\nb. Life, Monopoly\nc. Cranium, Trivial Pursuit, Operation\nd. Sudoku, Dominos, Chess\n\n6) Your favorite book genre is:\na. Classics\nb. Mystery\nc. Science Fiction\nd. Self-help or Business","ex. A,B,C,...");
-    		if (email != null) {
-    	    	document.getElementById("email").innerHTML =
-    	    	"Hello " + email + "! Thank You for Your Interest In Life-Pal? Lets get started";
-    	    	quiz;
-       		}
-       		if (quiz != null) {
-    	    	document.getElementById("email").innerHTML =
-    	    	"Hello " + email + "! Thank You for Your Interest In Life-Pal? Lets get started";
-    	    	quiz;
-       		}
-		}
+            var array = quiz.split(',');
+            var dict = {'A':'HUMANITIES','B':'SOCIAL SCIENCES','C':'SCIENCES','D':'QUANTITATIVE REASONING'};
+            console.log(mode(quiz.split(',')));
+            var e = dict[mode(quiz.split(','))];
+            var f = grpdict[mode(quiz.split(','))];
+            if (email != null) {
+                document.getElementById("email").innerHTML =
+                "Congratulation, You are " + e + "!\n Here are a list of people that has a similar personality as you! Go out and make some friends:\n"+f;
+            }
+            var a = prompt("Please enter to download.","click enter");
+            window.location.replace("http://localhost:8000/download.html");
+       	}
 		function csuFunction() {
     		var email = prompt("Please enter your email address", "ex. xxx@colorado.edu");
     		var quiz = prompt("Quiz: Which Major Is Right For You?\nSource: http://getcollegecredit.com/blog/article/which_major_is_right_for_you\n1) If you didn’t have tons of homework due for class tomorrow, how would you spend your free time?\na. By reading a book, watching a play, or listening to music\nb. By meeting new people and going to events to learn new things\nc. By programming a computer game or thinking up a new experiment\nd. By playing Sudoku or sketching out the floor plans of your dream home\n\n2) Which one of these courses would most interest you?\na. An Exploration of Milton’s Paradise Lost\nb. The Meaning of Dreams\nc. Apes and Humans: Genetics As a Common Link\nd. Data Visualizations Through Number Theory\n\n3) The perfect date would include:\na. A trip to a museum, a talk by your favorite thought leader, or a concert\nb. A comedy club, a documentary screening, or people watching at a cafe\nc. A cooking class, a trip to a pet store, or stargazing\nd. A Lego building competition, a Poker game, or a discussion with Warren Buffet\n\n4) When shopping for back-to-school supplies, you love purchasing:\na. Art supplies\nb. Journals to take notes in\nc. A lab notebook\nd. A graphing calculator\n\n5) Your favorite games most likely include:\na. Words with Friends, Scrabble, Pictionary\nb. Life, Monopoly\nc. Cranium, Trivial Pursuit, Operation\nd. Sudoku, Dominos, Chess\n\n6) Your favorite book genre is:\na. Classics\nb. Mystery\nc. Science Fiction\nd. Self-help or Business","ex. A,B,C,...");
+    		var array = quiz.split(',');
+    		var dict = {'A':'HUMANITIES','B':'SOCIAL SCIENCES','C':'SCIENCES','D':'QUANTITATIVE REASONING'};
+    		console.log(mode(quiz.split(',')));
+    		var e = dict[mode(quiz.split(','))];
+    		var f = grpdict[mode(quiz.split(','))];
     		if (email != null) {
     	    	document.getElementById("email").innerHTML =
-    	    	"Hello " + email + "! Thank You for Your Interest In Life-Pal? Lets get started";
-    	    	quiz;
+    	    	"Congratulation, You are " + e + "!\n Here are a list of people that has a similar personality as you! Go out and make some friends:\n"+f;
        		}
-       		if (quiz != null) {
-    	    	document.getElementById("email").innerHTML =
-    	    	"Hello " + email + "! Thank You for Your Interest In Life-Pal? Lets get started";
-    	    	quiz;
-       		}
+            var a = prompt("Please enter to download.","click enter");
+            window.location.replace("http://localhost:8000/download.html");
 		}
 	</script>
   </head>
@@ -81,6 +78,7 @@
     	<button type="button" onclick="frccFunction()"><img src="frcclogo.jpg" height="155"/></button>
     </center>
     <center>
+        <font>                                                                                                                                                                                                                                                    </font>
     	<font id="email" color="white"></font>
     	<pre id="fileDisplayArae"><pre>
     </center>
