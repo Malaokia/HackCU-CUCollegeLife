@@ -8,11 +8,13 @@ enter their email address, take a personality quiz, and download the package
 application. Their adventure begins!
 
 Main features that are finished implementations:
--Company webpage
+-Company webpage: try to connect individual with same personality
 -Personality quiz
 -Linear Regression Model: to predict how many hours users should spend before
 the exam to get good grade.
 -Balance Life App: to help users balance their studying and their life
+-K-Modes Clustering: that try to identity individual's personality
+
 
 Application is python based project
 
@@ -24,3 +26,4 @@ Libraries and Tools need to run the App:
 -Scipy
 -Tkinter
 -ImageTk
+-Kmodes
